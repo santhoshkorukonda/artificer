@@ -1,0 +1,26 @@
+{
+    "name": "santhoshkorukonda/fartisan",
+    "description": "Build dynamic HTML forms with Fartisan using JSON.",
+    "keywords": ["fartisan", "fartisan laravel", "form laravel package", "santosh korukonda laravel package", "laravel form package"],
+    "homepage": "https://github.com/santhoshkorukonda/fartisan",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Santhosh Korukonda",
+            "email": "santhoshkorukonda98@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "0.1",
+    "require": {
+        "php": ">=7.1",
+        "laravel/framework": "5.4.*",
+        "laravelcollective/html": "^5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SanthoshKorukonda\\Fartisan\\": "src/Fartisan/"
+        }
+    }
+}

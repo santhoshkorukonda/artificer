@@ -1,2 +1,2 @@
 # Fartisan
-Dynamic Forms Artisan using JSON schema
+Build dynamic HTML forms with Fartisan using JSON.
