@@ -1,21 +1,22 @@
 # Artificer
 Build dynamic HTML forms with Artificer using JSON.
 
-### Introduction
+## Introduction
 Artificer provides a simple API to generate HTML forms by storing its schema in JSON. It caches the generated HTML form for later requests which improves speed in generation and serving forms.
 
-#### Prerequisites
+### Prerequisites
 1. requires ``php >= 7.1``
 2. requires ``laravel/framework >= 5.4``
 3. requires ``laravelcollective/html >= 5.4``
 
-#### Installation
+## Installation
+To install this package through composer, run following command in terminal:
 ``composer require santhoshkorukonda/artificer``
 
-### Configuration
+## Configuration
 We need to setup little configuration before we start using it.
 
-Add **Artificer ServiceProvider** to ``config/app.php``
+Add our new provider **Artificer ServiceProvider** to the providers array of ``config/app.php``:
 
 ```php
 <?php
@@ -27,7 +28,7 @@ return [
 ];
 ```
 
-Add **Artificer Facade** to ``config/app.php``
+Next, add an alias to aliases array of ``config/app.php``:
 
 ```php
 <?php
@@ -39,7 +40,7 @@ return [
 ];
 ```
 
-Create **Artificer cache store** in ``config/cache.php``
+Next, create a cache store for **Artificer** by adding config to stores array in ``config/cache.php``:
 
 ```php
 <?php
@@ -54,7 +55,7 @@ return [
 ];
 ```
 
-Create **Artificer filesystem disk** in ``config/filesystems.php``
+Next, create a filesystem disk for **Artificer** by adding config to disks array in ``config/filesystems.php``:
 
 ```php
 <?php
@@ -68,3 +69,18 @@ return [
     ],
 ];
 ```
+
+## Generating Forms
+
+```php
+<?php
+
+public function create()
+{
+    // decode json and send it as an object into build method
+    $schema = json_decode({});
+    $data = Artificer::build($schema);
+    return view("welcome")->with($data);
+}
+```
+Its that simple to generate a form.
