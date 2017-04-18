@@ -1,5 +1,5 @@
 # Artificer
-Build dynamic HTML forms with Artificer using JSON.
+Build dynamic HTML forms with Artificer using JSON. It is a wrapper on the top of [Laravel Collective Html](https://laravelcollective.com/docs/5.3/html).
 
 ## Introduction
 Artificer provides a simple API to generate HTML forms by storing its schema in JSON. It caches the generated HTML form for later requests which improves speed in generation and serving forms.
