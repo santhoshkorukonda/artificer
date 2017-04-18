@@ -1,4 +1,4 @@
-@extends ("fartisan::layout")
+@extends ("artificer::layout")
 
 @section ("component")
     <div class="form-group has-feedback">

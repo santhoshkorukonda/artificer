@@ -29,14 +29,14 @@ class FormClearCommand extends Command
      */
     public function handle()
     {
-        # Fetch all files in fartisan storage directory
-        $files = Storage::disk("fartisan")->files();
+        # Fetch all files in artificer storage directory
+        $files = Storage::disk("artificer")->files();
 
         # Delete all specified files
-        Storage::disk("fartisan")->delete($files);
+        Storage::disk("artificer")->delete($files);
 
-        # Flush all data from cache of fartisan store
-        Cache::store("fartisan")->flush();
+        # Flush all data from cache of artificer store
+        Cache::store("artificer")->flush();
 
         # Output success message
         $this->info("Compiled json form views cleared!");

@@ -31,7 +31,7 @@ class Artificer implements ArtificerContract
         $hash = sha1(json_encode($schema));
 
         # Find whether this schema's cached code already exists
-        $exists = Storage::disk('fartisan')->exists("$hash.php");
+        $exists = Storage::disk('artificer')->exists("$hash.php");
 
         # If no, then create the form from the json schema and cache it
         if (! $exists) {
@@ -78,7 +78,7 @@ class Artificer implements ArtificerContract
         $expiresAt = Carbon::now()->addWeek();
 
         # Return cached database data for the json hash
-        return Cache::store("fartisan")->remember($hash, $expiresAt, function () use ($schema) {
+        return Cache::store("artificer")->remember($hash, $expiresAt, function () use ($schema) {
             # Extract components schema
             $components = $schema->components;
             # Define an empty array to store database data
@@ -148,9 +148,9 @@ class Artificer implements ArtificerContract
         # Build cached form from the given schema
         $html = $this->buildForm($hash, $schema, $values, true);
 
-        # Store the html output to the fartisan filesystem
+        # Store the html output to the artificer filesystem
         # so it can served for the future requests
-        Storage::disk("fartisan")->put("$hash.php", $html->toHtml());
+        Storage::disk("artificer")->put("$hash.php", $html->toHtml());
     }
 
     /**
@@ -266,7 +266,7 @@ class Artificer implements ArtificerContract
         $expiresAt = Carbon::now()->addWeek();
 
         # Cache the database data with the newly fetched data
-        Cache::store("fartisan")->put($hash, $data, $expiresAt);
+        Cache::store("artificer")->put($hash, $data, $expiresAt);
     }
 
     /**
@@ -314,6 +314,6 @@ class Artificer implements ArtificerContract
      */
     public function compileOptions(string $variable)
     {
-        return '<?= Fartisan::buildSelectOptions($' . $variable . '); ?>';
+        return '<?= Artificer::buildSelectOptions($' . $variable . '); ?>';
     }
 }

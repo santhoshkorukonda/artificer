@@ -148,7 +148,7 @@ class ArtificerServiceProvider extends ServiceProvider
     protected function bootFormBladeDirective()
     {
         Blade::directive('includeJsonForm', function ($expression) {
-            $filePath = storage_path("fartisan/views/$expression.php");
+            $filePath = storage_path("artificer/views/$expression.php");
             return "<?php include_once \"$filePath\" ?>";
         });
     }

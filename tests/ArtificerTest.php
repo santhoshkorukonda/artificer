@@ -1,38 +1,37 @@
 <?php
 
-namespace SanthoshKorukonda\Fartisan\Tests;
+namespace SanthoshKorukonda\Artificer\Tests;
 
 use App\City;
-use Orchestra\Testbench\TestCase;
+// use Orchestra\Testbench\TestCase;
+use Tests\TestCase;
+use Collective\Html\FormFacade;
 use Illuminate\Support\HtmlString;
-use SanthoshKorukonda\Fartisan\Bootstrap\Fartisan;
+use Collective\Html\HtmlServiceProvider;
+use SanthoshKorukonda\Artificer\Bootstrap\Artificer;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use SanthoshKorukonda\Fartisan\Bootstrap\FartisanServiceProvider;
+use Illuminate\Database\Eloquent\Factory as ModelFactory;
+use SanthoshKorukonda\Artificer\Bootstrap\ArtificerServiceProvider;
 
-class FartisanTest extends TestCase
+class ArtificerTest extends TestCase
 {
-    use DatabaseTransactions;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->withFactories(__DIR__.'/database/factories');
-    }
+    use DatabaseTransactions,
+        DatabaseMigrations;
 
     protected function getPackageProviders($app)
     {
         return [
-            FartisanServiceProvider::class,
-            'Collective\Html\HtmlServiceProvider',
+            HtmlServiceProvider::class,
+            ArtificerServiceProvider::class
         ];
     }
     protected function getPackageAliases($app)
     {
         return [
-            "Fartisan" => Fartisan::class,
-            'Form' => 'Collective\Html\FormFacade',
-            'Html' => 'Collective\Html\HtmlFacade',
+            'Artificer' => Artificer::class,
+            'Form' => FormFacade::class,
+            'Html' => FormFacade::class
         ];
     }
 
@@ -44,23 +43,23 @@ class FartisanTest extends TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        # Setup cache store for Fartisan
-        $app['config']->set('cache.stores.fartisan', [
+        # Setup cache store for Artificer
+        $app['config']->set('cache.stores.artificer', [
             'driver' => 'file',
-            'path' => storage_path('fartisan/cache'),
+            'path' => storage_path('artificer/cache'),
         ]);
 
-        # Setup Filesystems disk for Fartisan
-        $app['config']->set('filesystems.disks.fartisan', [
+        # Setup Filesystems disk for Artificer
+        $app['config']->set('filesystems.disks.artificer', [
             'driver' => 'local',
-            'root' => storage_path('fartisan/views'),
+            'root' => storage_path('artificer/views'),
         ]);
 
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver'   => 'sqlite',
-            'database' => env('DB_DATABASE', __DIR__.'/../../../../database/database.sqlite'),
+            'database' => ':memory:',
             'prefix'   => '',
         ]);
     }
@@ -69,26 +68,26 @@ class FartisanTest extends TestCase
     public function it_should_return_an_array_with_cached_form_filename()
     {
         factory(City::class, 10)->create([
-            "stateId" => 1403
+            "StateId" => 1403
         ]);
 
         $schema = json_decode($this->getDummyJson())[0];
-        $data = Fartisan::build($schema);
+        $data = Artificer::build($schema);
 
         $this->assertArrayHasKey("filename", $data);
         $filename = $data["filename"] . ".php";
-        $this->assertFileExists(storage_path("fartisan/views/$filename"));
+        $this->assertFileExists(storage_path("artificer/views/$filename"));
     }
 
     /** @test */
     public function it_should_return_an_instance_of_illuminate_htmlstring()
     {
         factory(City::class, 10)->create([
-            "stateId" => 1403
+            "StateId" => 1403
         ]);
 
         $schema = json_decode($this->getDummyJson())[0];
-        $data = Fartisan::buildHtml($schema);
+        $data = Artificer::buildHtml($schema);
 
         $this->assertInstanceOf(HtmlString::class, $data);
     }
@@ -98,8 +97,8 @@ class FartisanTest extends TestCase
     {
         $filename = sha1("hash") . ".php";
 
-        $expected = '<?= Fartisan::buildSelectOptions($' . $filename . '); ?>';
-        $actual = Fartisan::compileOptions($filename);
+        $expected = '<?= Artificer::buildSelectOptions($' . $filename . '); ?>';
+        $actual = Artificer::compileOptions($filename);
 
         $this->assertSame($expected, $actual);
     }
@@ -113,7 +112,7 @@ class FartisanTest extends TestCase
         foreach ($options as $key => $option) {
             $htmlString .= "<option value='$key'>$option</option>\n";
         }
-        $actual = Fartisan::buildSelectOptions($options);
+        $actual = Artificer::buildSelectOptions($options);
 
         $this->assertSame($htmlString, $actual);
     }
