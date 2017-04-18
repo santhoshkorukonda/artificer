@@ -117,10 +117,10 @@ Its that simple to generate a form.
 Checkout following documentation on how to build the json schema which is recognized by the **Artificer**.
 
 ### Form schema
+Form schema attributes are same as form options of [laravelcollective](https://laravelcollective.com/docs/5.3/html#opening-a-form).
 ```js
 {
-    // define attributes for the form with the key ``attributes`` in json schema.
-    // you can define the form attributes same as form options of [laravelcollective](https://laravelcollective.com/docs/5.3/html#opening-a-form).
+    // define attributes for the form with the key "attributes" in json schema.
     "attributes": {
         "route": "route.name",
         "method": "POST",
