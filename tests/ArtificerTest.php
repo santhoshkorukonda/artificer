@@ -3,7 +3,6 @@
 namespace SanthoshKorukonda\Artificer\Tests;
 
 use App\City;
-// use Orchestra\Testbench\TestCase;
 use Tests\TestCase;
 use Collective\Html\FormFacade;
 use Illuminate\Support\HtmlString;
@@ -16,8 +15,7 @@ use SanthoshKorukonda\Artificer\Bootstrap\ArtificerServiceProvider;
 
 class ArtificerTest extends TestCase
 {
-    use DatabaseTransactions,
-        DatabaseMigrations;
+    use DatabaseTransactions;
 
     protected function getPackageProviders($app)
     {
@@ -54,21 +52,13 @@ class ArtificerTest extends TestCase
             'driver' => 'local',
             'root' => storage_path('artificer/views'),
         ]);
-
-        // Setup default database to use sqlite :memory:
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
     }
 
     /** @test */
     public function it_should_return_an_array_with_cached_form_filename()
     {
         factory(City::class, 10)->create([
-            "StateId" => 1403
+            "stateId" => 1403
         ]);
 
         $schema = json_decode($this->getDummyJson())[0];
@@ -83,7 +73,7 @@ class ArtificerTest extends TestCase
     public function it_should_return_an_instance_of_illuminate_htmlstring()
     {
         factory(City::class, 10)->create([
-            "StateId" => 1403
+            "stateId" => 1403
         ]);
 
         $schema = json_decode($this->getDummyJson())[0];
@@ -119,6 +109,6 @@ class ArtificerTest extends TestCase
 
     protected function getDummyJson()
     {
-        return '[{"attributes":{"url":"foo/bar","method":"POST","files":true,"id":"Enquiry","class":"form"},"components":[{"name":"bsText","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Email","text":"Email*","attributes":[]},"input":{"name":"Email","value":null,"attributes":[]}}},{"name":"bsFile","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":{"name":"Image","value":null,"attributes":[]}}},{"name":"bsSelectWithDb","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Units","text":"Units*","attributes":[]},"input":{"name":"Units","value":null,"attributes":[],"database":{"table":"Cities","columns":["Id","Name"],"where":{"StateId":1403},"uid":"Cities"}}}},{"name":"bsCheckbox","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":[{"name":"Email","text":"Male","value":"Male","checked":false,"attributes":[]},{"name":"Email","text":"Female","value":"Female","checked":true,"attributes":[]}]}},{"name":"bsRadio","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":[{"name":"Email","text":"Male","value":"Male","checked":false,"attributes":[]},{"name":"Email","text":"Female","value":"Female","checked":true,"attributes":[]}]}},{"name":"bsButton","options":{"row":{"start":true,"end":false},"wrapper":{"start":true,"end":false,"options":{"class":"col-md-4","attributes":[]}},"input":{"value":"Submit","attributes":{"name":"Submit","type":"submit","class":"btn btn-primary"}}}},{"name":"bsButton","options":{"row":{"start":false,"end":true},"wrapper":{"start":false,"end":true,"options":{"class":"col-md-4","attributes":[]}},"input":{"value":"Reset","attributes":{"name":"Reset","type":"reset","class":"btn btn-default"}}}}]}]';
+        return '[{"attributes":{"url":"foo/bar","method":"POST","files":true,"id":"Enquiry","class":"form"},"components":[{"name":"bsText","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Email","text":"Email*","attributes":[]},"input":{"name":"Email","value":null,"attributes":[]}}},{"name":"bsFile","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":{"name":"Image","value":null,"attributes":[]}}},{"name":"bsSelectWithDb","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Units","text":"Units*","attributes":[]},"input":{"name":"Units","value":null,"attributes":[],"database":{"table":"Cities","columns":["id","name"],"where":{"stateId":1403},"uid":"Cities"}}}},{"name":"bsCheckbox","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":[{"name":"Email","text":"Male","value":"Male","checked":false,"attributes":[]},{"name":"Email","text":"Female","value":"Female","checked":true,"attributes":[]}]}},{"name":"bsRadio","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":[{"name":"Email","text":"Male","value":"Male","checked":false,"attributes":[]},{"name":"Email","text":"Female","value":"Female","checked":true,"attributes":[]}]}},{"name":"bsButton","options":{"row":{"start":true,"end":false},"wrapper":{"start":true,"end":false,"options":{"class":"col-md-4","attributes":[]}},"input":{"value":"Submit","attributes":{"name":"Submit","type":"submit","class":"btn btn-primary"}}}},{"name":"bsButton","options":{"row":{"start":false,"end":true},"wrapper":{"start":false,"end":true,"options":{"class":"col-md-4","attributes":[]}},"input":{"value":"Reset","attributes":{"name":"Reset","type":"reset","class":"btn btn-default"}}}}]}]';
     }
 }
