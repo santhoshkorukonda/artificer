@@ -11,12 +11,13 @@ Artificer provides a simple API to generate HTML forms by storing its schema in 
 
 ## Installation
 To install this package through composer, run following command in terminal:
+
 ``composer require santhoshkorukonda/artificer``
 
 ## Configuration
 We need to setup little configuration before we start using it.
 
-Add our new provider **Artificer ServiceProvider** to the providers array of ``config/app.php``:
+Add our new provider **ArtificerServiceProvider** to the providers array of ``config/app.php``:
 
 ```php
 <?php
@@ -40,7 +41,7 @@ return [
 ];
 ```
 
-Next, create a cache store for **Artificer** by adding config to stores array in ``config/cache.php``:
+Next, create a cache store for ``Artificer`` by adding config to stores array in ``config/cache.php``:
 
 ```php
 <?php
@@ -55,7 +56,7 @@ return [
 ];
 ```
 
-Next, create a filesystem disk for **Artificer** by adding config to disks array in ``config/filesystems.php``:
+Next, create a filesystem disk for ``Artificer`` by adding config to disks array in ``config/filesystems.php``:
 
 ```php
 <?php
@@ -75,12 +76,34 @@ return [
 ```php
 <?php
 
-public function create()
+namespace App\Http\Controllers;
+
+use Artificer;
+
+class FormController extends Controller
 {
-    // decode json and send it as an object into build method
-    $schema = json_decode({});
-    $data = Artificer::build($schema);
-    return view("welcome")->with($data);
+    /**
+     * Build a sample form from the json.
+     *
+     * @return html
+     */
+    public function create()
+    {
+        $schema = json_decode($this->getJson())[0];
+        $data = Artificer::build($schema);
+        return view("welcome")->with($data);
+    }
+
+    /**
+     * Define a sample json schema for form generation.
+     *
+     * @return string
+     */
+    protected function getJson()
+    {
+        return '[{"attributes":{"route":"route.name","method":"POST","files":true,"id":"Enquiry","class":"form"},"components":[{"name":"bsText","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Email","text":"Email*","attributes":[]},"input":{"name":"Email","value":null,"attributes":[]}}},{"name":"bsFile","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":{"name":"Image","value":null,"attributes":[]}}},{"name":"bsSelectWithDb","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Units","text":"Units*","attributes":[]},"input":{"name":"Units","value":null,"attributes":[],"database":{"table":"City","columns":["Id","Name"],"where":{"StateId":1403},"uid":"Cities"}}}},{"name":"bsCheckbox","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":[{"name":"Email","text":"Male","value":"Male","checked":false,"attributes":[]},{"name":"Email","text":"Female","value":"Female","checked":true,"attributes":[]}]}},{"name":"bsRadio","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":[{"name":"Email","text":"Male","value":"Male","checked":false,"attributes":[]},{"name":"Email","text":"Female","value":"Female","checked":true,"attributes":[]}]}},{"name":"bsButton","options":{"row":{"start":true,"end":false},"wrapper":{"start":true,"end":false,"options":{"class":"col-md-4","attributes":[]}},"input":{"value":"Submit","attributes":{"name":"Submit","type":"submit","class":"btn btn-primary"}}}},{"name":"bsButton","options":{"row":{"start":false,"end":true},"wrapper":{"start":false,"end":true,"options":{"class":"col-md-4","attributes":[]}},"input":{"value":"Reset","attributes":{"name":"Reset","type":"reset","class":"btn btn-default"}}}}]}]';
+    }
 }
+
 ```
 Its that simple to generate a form.
