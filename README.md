@@ -72,6 +72,7 @@ return [
 ```
 
 ## Generating Forms
+A sample form generation code with a controller and sample json text.
 
 ```php
 <?php
@@ -89,7 +90,11 @@ class FormController extends Controller
      */
     public function create()
     {
-        $schema = json_decode($this->getJson())[0];
+        // Here json is hardcoded as string to explain you how it works,
+        // it can even fetched form a database or a remote http call etc.
+        // So whatever it might just fetch the string, decode it and send
+        // the schema to build the form.
+        $schema = json_decode($this->getJson());
         $data = Artificer::build($schema);
         return view("welcome")->with($data);
     }
@@ -101,9 +106,32 @@ class FormController extends Controller
      */
     protected function getJson()
     {
-        return '[{"attributes":{"route":"route.name","method":"POST","files":true,"id":"Enquiry","class":"form"},"components":[{"name":"bsText","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Email","text":"Email*","attributes":[]},"input":{"name":"Email","value":null,"attributes":[]}}},{"name":"bsFile","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":{"name":"Image","value":null,"attributes":[]}}},{"name":"bsSelectWithDb","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Units","text":"Units*","attributes":[]},"input":{"name":"Units","value":null,"attributes":[],"database":{"table":"City","columns":["Id","Name"],"where":{"StateId":1403},"uid":"Cities"}}}},{"name":"bsCheckbox","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":[{"name":"Email","text":"Male","value":"Male","checked":false,"attributes":[]},{"name":"Email","text":"Female","value":"Female","checked":true,"attributes":[]}]}},{"name":"bsRadio","options":{"row":{"start":true,"end":true},"wrapper":{"class":"col-md-4","attributes":[]},"label":{"for":"Image","text":"Image*","attributes":[]},"input":[{"name":"Email","text":"Male","value":"Male","checked":false,"attributes":[]},{"name":"Email","text":"Female","value":"Female","checked":true,"attributes":[]}]}},{"name":"bsButton","options":{"row":{"start":true,"end":false},"wrapper":{"start":true,"end":false,"options":{"class":"col-md-4","attributes":[]}},"input":{"value":"Submit","attributes":{"name":"Submit","type":"submit","class":"btn btn-primary"}}}},{"name":"bsButton","options":{"row":{"start":false,"end":true},"wrapper":{"start":false,"end":true,"options":{"class":"col-md-4","attributes":[]}},"input":{"value":"Reset","attributes":{"name":"Reset","type":"reset","class":"btn btn-default"}}}}]}]';
+        return '{}';
     }
 }
 
 ```
 Its that simple to generate a form.
+
+## Understanding form JSON schema
+Checkout following documentation on how to build the json schema which is recognized by the **Artificer**.
+
+### Form schema
+```js
+{
+    // define attributes for the form with the key ``attributes`` in json schema.
+    // you can define the form attributes same as form options of [laravelcollective](https://laravelcollective.com/docs/5.3/html#opening-a-form).
+    "attributes": {
+        "route": "route.name",
+        "method": "POST",
+        "files": true,
+        "id": "Enquiry",
+        "class": "form"
+    },
+    "components": {
+        ...
+    }
+}
+```
+
+
