@@ -3,11 +3,10 @@
 return [
 
     'disks' => [
-
-        # Fartisan storage disk
-        'fartisan' => [
+        # Artificer storage disk configuration
+        'artificer' => [
             'driver' => 'local',
-            'root' => storage_path('fartisan/views'),
+            'root' => storage_path('artificer/views'),
         ],
 
     ],

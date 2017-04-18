@@ -1,13 +1,13 @@
 <?php
 
-namespace SanthoshKorukonda\Fartisan\Bootstrap;
+namespace SanthoshKorukonda\Artificer\Bootstrap;
 
 use Illuminate\Support\Facades\Facade;
 
-class Fartisan extends Facade
+class Artificer extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'fartisan';
+        return 'artificer';
     }
 }

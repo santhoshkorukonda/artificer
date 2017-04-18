@@ -1,6 +1,6 @@
 <?php
 
-namespace SanthoshKorukonda\Fartisan\Console;
+namespace SanthoshKorukonda\Artificer\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;

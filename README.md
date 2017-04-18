@@ -1,2 +1,2 @@
-# Fartisan
-Build dynamic HTML forms with Fartisan using JSON.
+# Artificer
+Build dynamic HTML forms with Artificer using JSON.

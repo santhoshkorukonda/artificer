@@ -3,10 +3,10 @@
 return [
 
     'stores' => [
-
-        'fartisan' => [
+    	# Artificer cache store configuration
+        'artificer' => [
             'driver' => 'file',
-            'path' => storage_path('fartisan/cache'),
+            'path' => storage_path('artificer/cache'),
         ]
 
     ],

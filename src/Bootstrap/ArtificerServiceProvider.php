@@ -1,6 +1,6 @@
 <?php
 
-namespace SanthoshKorukonda\Fartisan\Bootstrap;
+namespace SanthoshKorukonda\Artificer\Bootstrap;
 
 # Import Laravel Blade
 use Illuminate\Support\Facades\Blade;
@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Blade;
 use Collective\Html\FormFacade as Form;
 # Import Laravel base Service Provider
 use Illuminate\Support\ServiceProvider;
-# Import Fartisan essentials to register
-use SanthoshKorukonda\Fartisan\Fartisan;
-use SanthoshKorukonda\Fartisan\Console\FormClearCommand;
-use SanthoshKorukonda\Fartisan\Contracts\Fartisan as FartisanContract;
+# Import Artificer essentials to register
+use SanthoshKorukonda\Artificer\Artificer;
+use SanthoshKorukonda\Artificer\Console\FormClearCommand;
+use SanthoshKorukonda\Artificer\Contracts\Artificer as ArtificerContract;
 
-class FartisanServiceProvider extends ServiceProvider
+class ArtificerServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -38,11 +38,11 @@ class FartisanServiceProvider extends ServiceProvider
         }
 
         # Register Fartisan components views into the application
-        $this->loadViewsFrom(__DIR__.'/../components', 'fartisan');
+        $this->loadViewsFrom(__DIR__.'/../components', 'artificer');
 
         # Publish Fartisan views to resources/views/vendor directory
         $this->publishes([
-            __DIR__.'/../components' => resource_path('views/vendor/fartisan/components'),
+            __DIR__.'/../components' => resource_path('views/vendor/artificer/components'),
         ]);
 
         # Boot Fartisan form components
@@ -59,15 +59,15 @@ class FartisanServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        # Register Fartisan implementation with FartisanContract(interface)
-        $this->app->singleton(FartisanContract::class, function ($app) {
-            return new Fartisan;
+        # Register Artificer implementation with ArtificerContract(interface)
+        $this->app->singleton(ArtificerContract::class, function ($app) {
+            return new Artificer;
         });
 
-        # Register Fartisan alias into the application. It is used in resolving
-        # fartisan implementaion out of the application. Ex: app('fartisan') or 
+        # Register Artificer alias into the application. It is used in resolving
+        # artificer implementaion out of the application. Ex: app('artificer') or 
         # app(FartisanContract::class)
-        $this->app->alias(FartisanContract::class, "fartisan");
+        $this->app->alias(ArtificerContract::class, "artificer");
     }
 
     /**
@@ -77,7 +77,7 @@ class FartisanServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [FartisanContract::class, "fartisan"];
+        return [ArtificerContract::class, "artificer"];
     }
 
     /**
@@ -88,54 +88,54 @@ class FartisanServiceProvider extends ServiceProvider
     protected function bootFormComponents()
     {
         # Register bootstrap text component
-        Form::component('bsText', 'fartisan::text', [
+        Form::component('bsText', 'artificer::text', [
             'options' => (object) []
         ]);
 
         # Register bootstrap file component
-        Form::component('bsFile', 'fartisan::file', [
+        Form::component('bsFile', 'artificer::file', [
             'options' => (object) []
         ]);
 
         # Register bootstrap text component with input group
-        Form::component('bsInputGroup', 'fartisan::inputgroup', [
+        Form::component('bsInputGroup', 'artificer::inputgroup', [
             'options' => (object) []
         ]);
 
         # Register bootstrap select component with list. i.e, select options
         # are provided in the json itself
-        Form::component('bsSelectWithList', 'fartisan::selectwithlist', [
+        Form::component('bsSelectWithList', 'artificer::selectwithlist', [
             'options' => (object) []
         ]);
 
         # Register bootstrap select component with database. i.e, select options
         # are fetched from the database
-        Form::component('bsSelectWithDb', 'fartisan::selectwithdb', [
+        Form::component('bsSelectWithDb', 'artificer::selectwithdb', [
             'options' => (object) []
         ]);
 
         # Register bootstrap text component with feedback icon
-        Form::component('bsTextFeedback', 'fartisan::textfeedback', [
+        Form::component('bsTextFeedback', 'artificer::textfeedback', [
             'options' => (object) []
         ]);
 
         # Register bootstrap checkbox component
-        Form::component('bsCheckbox', 'fartisan::checkbox', [
+        Form::component('bsCheckbox', 'artificer::checkbox', [
             'options' => (object) []
         ]);
 
         # Register bootstrap checkbox component which displays inline
-        Form::component('bsCheckboxInline', 'fartisan::checkboxinline', [
+        Form::component('bsCheckboxInline', 'artificer::checkboxinline', [
             'options' => (object) []
         ]);
 
         # Register bootstrap radio button component
-        Form::component('bsRadio', 'fartisan::radio', [
+        Form::component('bsRadio', 'artificer::radio', [
             'options' => (object) []
         ]);
 
         # Register bootstrap button component 
-        Form::component('bsButton', 'fartisan::button', [
+        Form::component('bsButton', 'artificer::button', [
             'options' => (object) []
         ]);
     }

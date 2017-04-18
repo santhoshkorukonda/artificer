@@ -1,6 +1,6 @@
 <?php
 
-namespace SanthoshKorukonda\Fartisan;
+namespace SanthoshKorukonda\Artificer;
 
 # Import stdClass
 use stdClass;
@@ -14,58 +14,50 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 # Import Laravel Collective Form
 use Collective\Html\FormFacade as Form;
-# Import Fartisan contract
-use SanthoshKorukonda\Fartisan\Contracts\Fartisan as FartisanContract;
+# Import Artificer contract
+use SanthoshKorukonda\Artificer\Contracts\Artificer as ArtificerContract;
 
-class Fartisan implements FartisanContract
+class Artificer implements ArtificerContract
 {
     /**
      * Build html form from the given json schema and cache it.
      *
-     * @param  string  $schema
-     * @param  int  $index
+     * @param  stdClass  $schema
      * @return array
      */
-    public function build(string $schema, int $index = 0)
+    public function build(stdClass $schema)
     {
         # Calculate sha1 hash of the given json schema, so it acts as an unique identifier
-        $hash = sha1($schema);
-        # Decode form schema from the given json
-        $schema = json_decode($schema);
+        $hash = sha1(json_encode($schema));
 
         # Find whether this schema's cached code already exists
         $exists = Storage::disk('fartisan')->exists("$hash.php");
 
         # If no, then create the form from the json schema and cache it
         if (! $exists) {
-            $this->buildCachedForm($hash, $schema[$index]);
+            $this->buildCachedForm($hash, $schema);
         }
 
         # Now return hash and any db cached data
         return array_merge([
             "filename" => $hash
-        ], $this->extractDatabaseData($hash, $schema[$index]));
+        ], $this->extractDatabaseData($hash, $schema));
     }
 
     /**
      * Build raw html form from the given json schema and "do not" cache it.
      *
-     * @param  string  $schema
-     * @param  string|null  $values
-     * @param  int  $index
+     * @param  stdClass  $schema
+     * @param  stdClass|null  $values
      * @return HtmlString
      */
-    public function buildHtml(string $schema, string $values = null, int $index = 0)
+    public function buildHtml(stdClass $schema, stdClass $values = null)
     {
         # Calculate sha1 hash of the given json schema, so it acts as an unique identifier
-        $hash = sha1($schema);
-        # Decode form schema from given json
-        $schema = json_decode($schema)[$index];
+        $hash = sha1(json_encode($schema));
 
         # Check whether values is null or not
-        if ($values) {
-            $values = json_decode($values)[$index];
-        } else {
+        if (! $values) {
             $values = new stdClass;
         }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace SanthoshKorukonda\Fartisan\Contracts;
+namespace SanthoshKorukonda\Artificer\Contracts;
 
 use stdClass;
 
-interface Fartisan
+interface Artificer
 {
     /**
      * Send a new message using a text.
